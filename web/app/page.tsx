@@ -6,21 +6,27 @@ import nlwCopaUsersAvatar from '../public/users-avatar-example.png'
 
 async function getPoolsCount(): Promise<{ count: number }> {
   const res = await fetch('http://localhost:3333/pools/count', {
-    cache: 'no-store',
+    next: {
+      revalidate: 30,
+    },
   })
   return res.json()
 }
 
 async function getUsersCount(): Promise<{ count: number }> {
   const res = await fetch('http://localhost:3333/users/count', {
-    cache: 'no-store',
+    next: {
+      revalidate: 30,
+    },
   })
   return res.json()
 }
 
 async function getGuessesCount(): Promise<{ count: number }> {
   const res = await fetch('http://localhost:3333/guesses/count', {
-    cache: 'no-store',
+    next: {
+      revalidate: 30,
+    },
   })
   return res.json()
 }
