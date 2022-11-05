@@ -8,9 +8,9 @@ import {
   Roboto_700Bold,
 } from '@expo-google-fonts/roboto'
 
-import { Loading } from './src/components/loading'
-import { SignInScreen } from './src/screens/sign-in'
-import { theme } from './src/styles/theme'
+import { Loading } from './src/components'
+import { SignInScreen } from './src/screens'
+import { theme } from './src/styles'
 
 export default function App() {
   const [fontsLoaded] = useFonts({
