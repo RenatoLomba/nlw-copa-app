@@ -11,9 +11,9 @@ import {
 import { Loading } from './src/components'
 import {
   // CreatePoolScreen,
-  // SignInScreen,
+  SignInScreen,
   // FindPoolScreen,
-  MyPoolsScreen,
+  // MyPoolsScreen,
 } from './src/screens'
 import { AuthProvider } from './src/stores'
 import { theme } from './src/styles'
@@ -22,8 +22,8 @@ function Router() {
   return (
     <AuthProvider>
       {/* <FindPoolScreen /> */}
-      <MyPoolsScreen />
-      {/* <SignInScreen /> */}
+      {/* <MyPoolsScreen /> */}
+      <SignInScreen />
       {/* <CreatePoolScreen /> */}
     </AuthProvider>
   )
