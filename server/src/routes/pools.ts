@@ -17,6 +17,12 @@ const joinPoolSchema = z.object({
 
 type JoinPoolFields = z.infer<typeof joinPoolSchema>
 
+const getPoolSchema = z.object({
+  id: z.string().uuid(),
+})
+
+type GetPoolFields = z.infer<typeof getPoolSchema>
+
 export async function poolRoutes(fastify: FastifyInstance) {
   fastify.get('/pools/count', async () => {
     const count = await prisma.pool.count()
@@ -168,4 +174,58 @@ export async function poolRoutes(fastify: FastifyInstance) {
       },
     })
   })
+
+  fastify.get(
+    '/pools/:id',
+    { onRequest: [authenticate] },
+    async (request, reply) => {
+      let getPoolFields = {} as GetPoolFields
+
+      try {
+        getPoolFields = getPoolSchema.parse(request.params)
+      } catch (ex: unknown) {
+        return reply.status(400).send((ex as { message: string }).message)
+      }
+
+      const { id } = getPoolFields
+
+      const pool = await prisma.pool.findUnique({
+        include: {
+          owner: {
+            select: {
+              name: true,
+              avatarUrl: true,
+            },
+          },
+          participants: {
+            select: {
+              id: true,
+              user: {
+                select: {
+                  id: true,
+                  name: true,
+                  avatarUrl: true,
+                },
+              },
+            },
+          },
+        },
+        where: {
+          id,
+        },
+      })
+
+      if (!pool) {
+        return reply.status(400).send({ message: 'Pool not found' })
+      }
+
+      if (!pool.participants.some((p) => p.user.id === request.user.sub)) {
+        return reply
+          .status(400)
+          .send({ message: 'User does not have access to this pool' })
+      }
+
+      return pool
+    },
+  )
 }
