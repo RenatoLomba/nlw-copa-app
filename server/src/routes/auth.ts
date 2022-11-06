@@ -29,8 +29,8 @@ export async function authRoutes(fastify: FastifyInstance) {
 
     try {
       sessionFields = sessionSchemaValidation.parse(request.body)
-    } catch (ex: any) {
-      return reply.status(400).send(ex.message)
+    } catch (ex: unknown) {
+      return reply.status(400).send((ex as { message: string }).message)
     }
 
     const { access_token: accessToken } = sessionFields
@@ -54,8 +54,8 @@ export async function authRoutes(fastify: FastifyInstance) {
 
     try {
       userInfoFields = userInfoSchemaValidation.parse(userData)
-    } catch (ex: any) {
-      return reply.status(400).send(ex.message)
+    } catch (ex: unknown) {
+      return reply.status(400).send((ex as { message: string }).message)
     }
 
     let user = await prisma.user.findUnique({
@@ -80,7 +80,7 @@ export async function authRoutes(fastify: FastifyInstance) {
       },
       {
         sub: user.id,
-        expiresIn: '30m',
+        expiresIn: process.env.JWT_EXPIRATION || '30m',
       },
     )
 
