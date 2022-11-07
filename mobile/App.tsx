@@ -9,25 +9,9 @@ import {
 } from '@expo-google-fonts/roboto'
 
 import { Loading } from './src/components'
-import {
-  // CreatePoolScreen,
-  SignInScreen,
-  // FindPoolScreen,
-  // MyPoolsScreen,
-} from './src/screens'
+import { Routes } from './src/routes'
 import { AuthProvider } from './src/stores'
 import { theme } from './src/styles'
-
-function Router() {
-  return (
-    <AuthProvider>
-      {/* <FindPoolScreen /> */}
-      {/* <MyPoolsScreen /> */}
-      <SignInScreen />
-      {/* <CreatePoolScreen /> */}
-    </AuthProvider>
-  )
-}
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -44,7 +28,13 @@ export default function App() {
         translucent
       />
 
-      {!fontsLoaded ? <Loading /> : <Router />}
+      {!fontsLoaded ? (
+        <Loading />
+      ) : (
+        <AuthProvider>
+          <Routes />
+        </AuthProvider>
+      )}
     </NativeBaseProvider>
   )
 }
