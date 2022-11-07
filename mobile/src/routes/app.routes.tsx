@@ -4,7 +4,7 @@ import { Platform } from 'react-native'
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
-import { CreatePoolScreen, MyPoolsScreen } from '../screens'
+import { CreatePoolScreen, FindPoolScreen, MyPoolsScreen } from '../screens'
 
 const { Navigator, Screen } = createBottomTabNavigator()
 
@@ -40,6 +40,7 @@ export function AppRoutes() {
           ),
         }}
       />
+
       <Screen
         name="my-pools"
         component={MyPoolsScreen}
@@ -49,6 +50,12 @@ export function AppRoutes() {
             <SoccerBall color={color} size={sizes[6]} />
           ),
         }}
+      />
+
+      <Screen
+        name="find-pool"
+        component={FindPoolScreen}
+        options={{ tabBarButton: () => null }}
       />
     </Navigator>
   )
