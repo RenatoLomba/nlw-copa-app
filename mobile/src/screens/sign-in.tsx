@@ -20,6 +20,11 @@ export function SignInScreen() {
         leftIcon={<Icon as={Fontisto} name="google" color="white" size="md" />}
         mt={12}
         onPress={signIn}
+        _loading={{
+          _spinner: {
+            color: 'white',
+          },
+        }}
       />
 
       <Text color="white" textAlign="center" mt={4}>
